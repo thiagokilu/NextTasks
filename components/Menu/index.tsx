@@ -3,11 +3,16 @@
 import { ChevronDown, LogOut, PlusCircleIcon } from "lucide-react";
 import { useRouter } from "next/navigation";
 
-export default function Menu({ setNewTaskModalOpen, name }: any) {
+interface MenuProps {
+  setNewTaskModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  name: string;
+}
+
+export default function Menu({ setNewTaskModalOpen, name }: MenuProps) {
   const router = useRouter();
 
   async function handleLogout() {
-    await fetch("http://localhost:3333/auth/logout", {
+    await fetch("https://apinexttasks.onrender.com//auth/logout", {
       method: "POST",
       credentials: "include",
     });

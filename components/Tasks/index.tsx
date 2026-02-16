@@ -21,7 +21,7 @@ export default function Tasks({ resTasks, onTaskClick, setTasks }: TasksProps) {
 
   async function handleCompleteTask(taskId: number) {
     const res = await fetch(
-      `http://localhost:3333/users/tasks/${taskId}/complete`,
+      `https://apinexttasks.onrender.com//users/tasks/${taskId}/complete`,
       {
         method: "PATCH",
         credentials: "include", // auth por cookie

@@ -37,16 +37,19 @@ export default function TaskModal({
 
   async function handleSave() {
     try {
-      const res = await fetch(`http://localhost:3333/users/tasks/${task.id}`, {
-        method: "PUT",
-        headers: { "Content-Type": "application/json" },
-        credentials: "include",
-        body: JSON.stringify({
-          title,
-          description: task.description,
-          deadline: task.deadline,
-        }),
-      });
+      const res = await fetch(
+        `https://apinexttasks.onrender.com//users/tasks/${task.id}`,
+        {
+          method: "PUT",
+          headers: { "Content-Type": "application/json" },
+          credentials: "include",
+          body: JSON.stringify({
+            title,
+            description: task.description,
+            deadline: task.deadline,
+          }),
+        },
+      );
 
       if (!res.ok) {
         throw new Error("Erro ao atualizar tarefa");
@@ -67,10 +70,13 @@ export default function TaskModal({
 
   async function DeleteTask() {
     try {
-      const res = await fetch(`http://localhost:3333/users/tasks/${task.id}`, {
-        method: "DELETE",
-        credentials: "include",
-      });
+      const res = await fetch(
+        `https://apinexttasks.onrender.com//users/tasks/${task.id}`,
+        {
+          method: "DELETE",
+          credentials: "include",
+        },
+      );
 
       if (!res.ok) {
         throw new Error("Erro ao deletar tarefa");

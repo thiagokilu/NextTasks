@@ -24,16 +24,19 @@ export default function NewTaskModal({
   const [newTaskDueDate, setNewTaskDueDate] = useState("");
 
   async function AddNewTask() {
-    const res = await fetch("http://localhost:3333/users/newTask", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      credentials: "include",
-      body: JSON.stringify({
-        title: newTaskName,
-        description: newTaskDescription,
-        deadline: newTaskDueDate,
-      }),
-    });
+    const res = await fetch(
+      "https://apinexttasks.onrender.com//users/newTask",
+      {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        credentials: "include",
+        body: JSON.stringify({
+          title: newTaskName,
+          description: newTaskDescription,
+          deadline: newTaskDueDate,
+        }),
+      },
+    );
 
     if (!res.ok) return;
 

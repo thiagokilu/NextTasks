@@ -35,7 +35,7 @@ export default function Page() {
   const handleLogin: SubmitHandler<LoginFormData> = async (data) => {
     setLoginError(false); // limpa erro anterior
 
-    const res = await fetch("http://localhost:3333/auth/login", {
+    const res = await fetch("https://apinexttasks.onrender.com//auth/login", {
       method: "POST",
       credentials: "include",
       headers: { "Content-Type": "application/json" },

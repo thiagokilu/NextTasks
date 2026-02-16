@@ -9,7 +9,7 @@ export default async function Home() {
     return <div>Não autorizado</div>;
   }
 
-  const userRes = await fetch("http://localhost:3333/users/me", {
+  const userRes = await fetch("https://apinexttasks.onrender.com//users/me", {
     headers: {
       Cookie: `token=${token}`,
     },
@@ -22,12 +22,15 @@ export default async function Home() {
 
   const user = await userRes.json();
 
-  const tasksRes = await fetch("http://localhost:3333/users/tasks", {
-    headers: {
-      Cookie: `token=${token}`,
+  const tasksRes = await fetch(
+    "https://apinexttasks.onrender.com//users/tasks",
+    {
+      headers: {
+        Cookie: `token=${token}`,
+      },
+      cache: "no-store",
     },
-    cache: "no-store",
-  });
+  );
 
   const tasks = await tasksRes.json();
 
