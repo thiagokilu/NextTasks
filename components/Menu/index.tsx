@@ -12,7 +12,7 @@ export default function Menu({ setNewTaskModalOpen, name }: MenuProps) {
   const router = useRouter();
 
   async function handleLogout() {
-    await fetch("https://apinexttasks.onrender.com//auth/logout", {
+    await fetch("https://apinexttasks.onrender.com/auth/logout", {
       method: "POST",
       credentials: "include",
     });
