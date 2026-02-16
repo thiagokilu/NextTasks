@@ -24,16 +24,22 @@ export default function Home() {
   useEffect(() => {
     async function checkAuth() {
       try {
+        console.log("Verificando autenticação...");
         const res = await fetch("https://apinexttasks.onrender.com/users/me", {
           credentials: "include",
         });
 
+        console.log("Status da verificação:", res.status);
+
         if (!res.ok) {
+          const errorData = await res.text();
+          console.error("Usuário não autenticado:", errorData);
           router.push("/login");
           return;
         }
 
         const userData = await res.json();
+        console.log("Usuário autenticado:", userData);
         setUser(userData);
 
         // Buscar tarefas do usuário

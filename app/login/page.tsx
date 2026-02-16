@@ -35,6 +35,8 @@ export default function Page() {
   const handleLogin: SubmitHandler<LoginFormData> = async (data) => {
     setLoginError(false); // limpa erro anterior
 
+    console.log("Tentando login com:", data.email);
+
     const res = await fetch("https://apinexttasks.onrender.com/auth/login", {
       method: "POST",
       credentials: "include",
@@ -42,11 +44,17 @@ export default function Page() {
       body: JSON.stringify(data),
     });
 
+    console.log("Status do login:", res.status);
+    
     if (!res.ok) {
+      const errorData = await res.text();
+      console.error("Erro no login:", errorData);
       setLoginError(true);
       return;
     }
 
+    const responseData = await res.json();
+    console.log("Login sucesso:", responseData);
     router.push("/home");
   };
 
