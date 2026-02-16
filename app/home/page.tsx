@@ -24,7 +24,7 @@ export default function Home() {
   useEffect(() => {
     async function checkAuth() {
       try {
-        const res = await fetch("https://apinexttasks.onrender.com/auth/me", {
+        const res = await fetch("https://apinexttasks.onrender.com/users/me", {
           credentials: "include",
         });
 
