@@ -36,7 +36,7 @@ export default function Page() {
   const handleSignup: SubmitHandler<SignupFormData> = async (data) => {
     setSignupError(null);
 
-    const res = await fetch("https://apinexttasks.onrender.com//auth/signup", {
+    const res = await fetch("https://apinexttasks.onrender.com/auth/signup", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(data),
