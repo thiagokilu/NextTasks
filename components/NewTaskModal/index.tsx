@@ -1,5 +1,5 @@
 import { useState } from "react";
-import TextEditor from "../TextEditor";
+import DynamicTextEditor from "../TextEditor/DynamicTextEditor";
 
 interface NewTaskModalProps {
   newTaskModalOpen: boolean;
@@ -102,7 +102,7 @@ export default function NewTaskModal({
               Descrição
             </label>
             <div className="bg-gray-50 dark:bg-gray-800 border border-gray-300 dark:border-gray-700 rounded-lg overflow-hidden">
-              <TextEditor onChange={(value) => setNewTaskDescription(value)} />
+              <DynamicTextEditor onChange={(value: string) => setNewTaskDescription(value)} />
             </div>
           </div>
         </div>
