@@ -1,16 +1,2 @@
-import { NextResponse } from "next/server";
-import type { NextRequest } from "next/server";
-
-export function middleware(request: NextRequest) {
-  const token = request.cookies.get("token")?.value;
-
-  if (!token) {
-    return NextResponse.redirect(new URL("/login", request.url));
-  }
-
-  return NextResponse.next();
-}
-
-export const config = {
-  matcher: ["/home"], // protege a home
-};
+// Middleware removido - não pode ler cookies cross-domain
+// Autenticação agora é feita no cliente via API call
