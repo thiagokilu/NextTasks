@@ -1,5 +1,6 @@
 import { PenIcon, CheckIcon, XIcon, TrashIcon } from "lucide-react";
 import { useEffect, useState } from "react";
+import TextEditor from "@/components/TextEditor"
 
 interface TaskModalProps {
   taskModalOpen: boolean;
@@ -11,7 +12,7 @@ interface TaskModalProps {
 type TaskModalData = {
   title: string;
   description: string;
-  dueDate: string;
+  deadline: string;
   completed: boolean;
   id: number;
 };
@@ -24,11 +25,13 @@ export default function TaskModal({
 }: TaskModalProps) {
   const [isEditing, setIsEditing] = useState(false);
   const [title, setTitle] = useState("");
+  const [description, setDescription] = useState("");
 
   // 🔄 sincroniza quando trocar a task
   useEffect(() => {
     if (task) {
       setTitle(task.title);
+      setDescription(task.description);
       setIsEditing(false);
     }
   }, [task]);
@@ -38,27 +41,28 @@ export default function TaskModal({
   async function handleSave() {
     try {
       const res = await fetch(
-        `https://apinexttasks.onrender.com//users/tasks/${task.id}`,
+        `https://apinexttasks.onrender.com/users/tasks/${task.id}`,
         {
           method: "PUT",
           headers: { "Content-Type": "application/json" },
           credentials: "include",
           body: JSON.stringify({
             title,
-            description: task.description,
+            description,
             deadline: task.deadline,
           }),
-        },
+        }
       );
 
       if (!res.ok) {
         throw new Error("Erro ao atualizar tarefa");
       }
+
       const newTask = await res.json();
 
-      // 👇 ATUALIZA O ESTADO
+      // 🔄 Atualiza estado local
       setTasks((prev: TaskModalData[]) =>
-        prev.map((task) => (task.id === newTask.id ? newTask : task)),
+        prev.map((t) => (t.id === newTask.id ? newTask : t))
       );
 
       setIsEditing(false);
@@ -71,18 +75,17 @@ export default function TaskModal({
   async function DeleteTask() {
     try {
       const res = await fetch(
-        `https://apinexttasks.onrender.com//users/tasks/${task.id}`,
+        `https://apinexttasks.onrender.com/users/tasks/${task.id}`,
         {
           method: "DELETE",
           credentials: "include",
-        },
+        }
       );
 
       if (!res.ok) {
         throw new Error("Erro ao deletar tarefa");
       }
 
-      // 👇 REMOVE A TASK DO ESTADO
       setTasks((prev: any[]) => prev.filter((t) => t.id !== task.id));
 
       setTaskModalOpen(false);
@@ -118,6 +121,7 @@ export default function TaskModal({
                 className="cursor-pointer text-red-500"
                 onClick={() => {
                   setTitle(task.title);
+                  setDescription(task.description);
                   setIsEditing(false);
                 }}
               />
@@ -149,10 +153,16 @@ export default function TaskModal({
         </span>
 
         {/* Descrição */}
-        <div
-          className="mt-4 ql-editor prose dark:prose-invert max-w-none"
-          dangerouslySetInnerHTML={{ __html: task.description }}
-        />
+        {isEditing ? (
+          <div className="mt-4">
+            <TextEditor value={description} onChange={setDescription} />
+          </div>
+        ) : (
+          <div
+            className="mt-4 ql-editor prose dark:prose-invert max-w-none"
+            dangerouslySetInnerHTML={{ __html: task.description }}
+          />
+        )}
       </div>
     </div>
   );
