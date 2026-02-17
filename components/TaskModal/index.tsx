@@ -1,6 +1,8 @@
+"use client";
+
 import { PenIcon, CheckIcon, XIcon, TrashIcon } from "lucide-react";
 import { useEffect, useState } from "react";
-import TextEditor from "@/components/TextEditor"
+import DynamicTextEditor from "@/components/TextEditor/DynamicTextEditor";
 
 interface TaskModalProps {
   taskModalOpen: boolean;
@@ -27,7 +29,7 @@ export default function TaskModal({
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
 
-  // 🔄 sincroniza quando trocar a task
+  // 🔄 Sincroniza quando trocar a task
   useEffect(() => {
     if (task) {
       setTitle(task.title);
@@ -60,7 +62,6 @@ export default function TaskModal({
 
       const newTask = await res.json();
 
-      // 🔄 Atualiza estado local
       setTasks((prev: TaskModalData[]) =>
         prev.map((t) => (t.id === newTask.id ? newTask : t))
       );
@@ -72,7 +73,7 @@ export default function TaskModal({
     }
   }
 
-  async function DeleteTask() {
+  async function handleDelete() {
     try {
       const res = await fetch(
         `https://apinexttasks.onrender.com/users/tasks/${task.id}`,
@@ -87,7 +88,6 @@ export default function TaskModal({
       }
 
       setTasks((prev: any[]) => prev.filter((t) => t.id !== task.id));
-
       setTaskModalOpen(false);
     } catch (error) {
       console.error(error);
@@ -127,9 +127,10 @@ export default function TaskModal({
               />
             </>
           )}
+
           <TrashIcon
             className="cursor-pointer text-red-500"
-            onClick={DeleteTask}
+            onClick={handleDelete}
           />
         </div>
 
@@ -155,7 +156,10 @@ export default function TaskModal({
         {/* Descrição */}
         {isEditing ? (
           <div className="mt-4">
-            <TextEditor value={description} onChange={setDescription} />
+            <DynamicTextEditor
+              value={description}
+              onChange={setDescription}
+            />
           </div>
         ) : (
           <div
